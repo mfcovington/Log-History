@@ -1,8 +1,10 @@
 package Log::History;
 use strict;
 use warnings;
-use Cwd;
+use Cwd ();
 use POSIX;
+use File::Copy 'move';
+use File::Temp ();
 
 our $VERSION = 'pre-0.1.0';
 
@@ -61,9 +63,9 @@ END {
     close $script_in_fh;
 
     # write script with newly logged item
-    open my $script_out_fh, ">", $script;
-    print $script_out_fh @code;
-    close $script_out_fh;
+    my ( $temp_fh, $temp_filename ) = File::Temp::tempfile();
+    print $temp_fh @code;
+    move $temp_filename, $script;
 }
 
 1;
