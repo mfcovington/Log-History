@@ -49,6 +49,7 @@ END {
     # read script and insert item in log
     my @code;
     open my $script_in_fh, "<", $script;
+    flock($script_in_fh, 2) or die $!;
     while ( my $line = <$script_in_fh> ) {
         push @code, $line;
         if ( $line =~ /use\s+@{[__PACKAGE__]}/ ) {
