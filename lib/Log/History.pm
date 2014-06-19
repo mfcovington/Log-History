@@ -32,6 +32,7 @@ my $start;
 my $cwd;
 my $script;
 my @arguments;
+my $log_limit = 5;
 
 BEGIN {
     $start  = _now();
@@ -47,17 +48,28 @@ BEGIN {
 END {
     my $finish = _now();
     my $elapsed = _elapsed( $$start{'seconds'}, $$finish{'seconds'} );
+    my $log
+        = "#$$start{'timestamp'} ($elapsed) in $cwd: $script @arguments\n";
 
     # read script and insert item in log
     my @code;
     open my $script_in_fh, "<", $script;
-    flock($script_in_fh, 2) or die $!;
+    flock( $script_in_fh, 2 ) or die $!;
     while ( my $line = <$script_in_fh> ) {
         push @code, $line;
         if ( $line =~ /use\s+@{[__PACKAGE__]}/ ) {
-            push @code,
-                "#$$start{'timestamp'} ($elapsed) in $cwd: $script @arguments\n";
-            push @code, <$script_in_fh>;
+            push @code, $log;
+            my $log_count = 1;
+            while ( my $post_log_line = <$script_in_fh> ) {
+                if ( $post_log_line
+                    =~ /^#\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s\(\d{2}:\d{2}:\d{2}\)\sin/
+                    )
+                {
+                    $log_count++;
+                    next if $log_count > $log_limit;
+                }
+                push @code, $post_log_line;
+            }
         }
     }
     close $script_in_fh;
