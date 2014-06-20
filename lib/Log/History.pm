@@ -1,10 +1,12 @@
 package Log::History;
 use strict;
 use warnings;
+use Carp;
 use Cwd ();
 use POSIX;
 use File::Copy 'move';
 use File::Temp ();
+use Scalar::Util 'looks_like_number';
 
 our $VERSION = 'pre-0.1.0';
 
@@ -32,7 +34,11 @@ my $start;
 my $cwd;
 my $script;
 my @arguments;
-my $log_limit = 5;
+my $log_limit;
+
+sub import {
+    ( my $pkg, $log_limit ) = @_;
+}
 
 BEGIN {
     $start  = _now();
@@ -51,6 +57,19 @@ END {
     my $log
         = "#$$start{'timestamp'} ($elapsed) in $cwd: $script @arguments\n";
 
+    if ( !defined $log_limit ) {
+        $log_limit = -1;
+    }
+
+    if ( !defined $log_limit || !looks_like_number $log_limit ) {
+        $log_limit = -1;
+my $warning = <<EOF;
+Warning: A non-numeric log limit was passed to Log::History while running $script
+         I hope you are a history buff, because your history is now... UNLIMITED!
+EOF
+        warn $warning;
+    }
+
     # read script and insert item in log
     my @code;
     open my $script_in_fh, "<", $script;
@@ -66,7 +85,7 @@ END {
                     )
                 {
                     $log_count++;
-                    next if $log_count > $log_limit;
+                    next if $log_count > $log_limit && $log_limit != -1;
                 }
                 push @code, $post_log_line;
             }
