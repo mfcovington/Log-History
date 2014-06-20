@@ -81,7 +81,7 @@ EOF
             my $log_count = 1;
             while ( my $post_log_line = <$script_in_fh> ) {
                 if ( $post_log_line
-                    =~ /^#\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s\(\d{2}:\d{2}:\d{2}\)\sin/
+                    =~ /^#\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s\(\d{2,}:\d{2}:\d{2}\)\sin/
                     )
                 {
                     $log_count++;
