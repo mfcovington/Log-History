@@ -80,9 +80,11 @@ my $script;
 my @arguments;
 my $log_limit;
 my $original_permissions;
+my $was_imported = 0;
 
 sub import {
     ( my $pkg, $log_limit ) = @_;
+    $was_imported = 1;
 }
 
 BEGIN {
@@ -100,6 +102,7 @@ BEGIN {
 }
 
 END {
+    return unless $was_imported;
     my $finish = _now();
     my $elapsed = _elapsed( $$start{'seconds'}, $$finish{'seconds'} );
 
