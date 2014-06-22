@@ -85,6 +85,11 @@ my $was_imported = 0;
 sub import {
     ( my $pkg, $log_limit ) = @_;
     $was_imported = 1;
+
+    @arguments = @ARGV;
+    for (@arguments) {
+        $_ = "'$_'" if /\s/;
+    }
 }
 
 BEGIN {
@@ -94,11 +99,6 @@ BEGIN {
 
     my $mode = ( stat($script) )[2];
     $original_permissions = sprintf "%04o", $mode & 07777;
-
-    @arguments = @ARGV;
-    for (@arguments) {
-        $_ = "'$_'" if /\s/;
-    }
 }
 
 END {
