@@ -129,6 +129,7 @@ EOF
     while ( my $line = <$script_in_fh> ) {
         push @code, $line;
         if ( $line =~ /use\s+@{[__PACKAGE__]}/ ) {
+            push @code, "\n" unless $line =~ /\n$/;
             push @code, $log;
             my $log_count = 1;
             while ( my $post_log_line = <$script_in_fh> ) {
