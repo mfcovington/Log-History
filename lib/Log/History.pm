@@ -72,6 +72,8 @@ EOF
 
     # read script and insert item in log
     my @code;
+    my $log_regex
+        = qr/^#\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s\(\d{2,}:\d{2}:\d{2}\)\sin/;
     open my $script_in_fh, "<", $script;
     flock( $script_in_fh, 2 ) or die $!;
     while ( my $line = <$script_in_fh> ) {
@@ -80,10 +82,7 @@ EOF
             push @code, $log;
             my $log_count = 1;
             while ( my $post_log_line = <$script_in_fh> ) {
-                if ( $post_log_line
-                    =~ /^#\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s\(\d{2,}:\d{2}:\d{2}\)\sin/
-                    )
-                {
+                if ( $post_log_line =~ /$log_regex/ ) {
                     $log_count++;
                     next if $log_count > $log_limit && $log_limit != -1;
                 }
