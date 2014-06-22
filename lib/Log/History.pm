@@ -58,8 +58,10 @@ BEGIN {
 END {
     my $finish = _now();
     my $elapsed = _elapsed( $$start{'seconds'}, $$finish{'seconds'} );
-    my $log
-        = "#$$start{'timestamp'} ($elapsed) in $cwd: $script @arguments\n";
+
+    my $log = "#$$start{'timestamp'} ($elapsed) in $cwd: $script";
+    $log .= " @arguments" if @arguments;
+    $log .= "\n";
 
     if ( !defined $log_limit ) {
         $log_limit = -1;
