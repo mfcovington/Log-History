@@ -35,6 +35,7 @@ my $cwd;
 my $script;
 my @arguments;
 my $log_limit;
+my $original_permissions;
 
 sub import {
     ( my $pkg, $log_limit ) = @_;
@@ -44,6 +45,9 @@ BEGIN {
     $start  = _now();
     $cwd    = getcwd();
     $script = $0;
+
+    my $mode = ( stat($script) )[2];
+    $original_permissions = sprintf "%04o", $mode & 07777;
 
     @arguments = @ARGV;
     for (@arguments) {
@@ -96,6 +100,7 @@ EOF
     my ( $temp_fh, $temp_filename ) = File::Temp::tempfile();
     print $temp_fh @code;
     move $temp_filename, $script;
+    chmod oct($original_permissions), $script;
 }
 
 1;
