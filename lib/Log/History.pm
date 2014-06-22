@@ -41,7 +41,7 @@ and a record of exactly how the script was called.
 I was inspired to write this after recently re-reading Neil Bowers' post:
 L<Identifying CPAN distributions you could help out with|http://blogs.perl.org/users/neilb/2012/12/modules-that-are-candidates-for-helping-out.html>.
 In it, I found Tushar Murudkar's no-longer-maintained module L<Log::SelfHistory>.
-I was intrigued since I had been working on L<Log::Reproducible>.
+I was intrigued since I had been working on L<Log::Reproducible|https://github.com/mfcovington/Log-Reproducible>.
 I wanted to go in a different direction, so decided to start from scratch instead of trying to take over L<Log::SelfHistory>.
 
 =head1 AUTHOR
@@ -50,7 +50,7 @@ Michael F. Covington <mfcovington@gmail.com>
 
 =head1 SEE ALSO
 
-L<Log::SelfHistory>, L<Log::Reproducible>
+L<Log::SelfHistory>, L<Log::Reproducible|https://github.com/mfcovington/Log-Reproducible>
 
 =cut
 
