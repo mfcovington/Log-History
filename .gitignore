@@ -1,1 +1,7 @@
+_build
+blib
+Build
 linecount
+META.*
+MYMETA.*
+*.tar.gz
