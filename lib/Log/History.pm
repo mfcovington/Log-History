@@ -10,6 +10,50 @@ use Scalar::Util 'looks_like_number';
 
 our $VERSION = 'pre-0.1.0';
 
+=head1 NAME
+
+Log::History - Make self-documenting scripts that track their own execution history.
+
+=head1 SYNOPSIS
+
+Place the import statement for Log::History wherever you want the log to start.
+
+    use Log::History;
+    #2014-02-02 12:43:08 (00:00:48) in /path/to/workingdir: /path/to/script.pl --opt 1 --param 2
+    ...
+
+To limit the number of log entries, specify how many to keep.
+The oldest entries are discarded.
+
+    use Log::History '3';
+    #2014-05-27 ...
+    #2007-12-18 ...
+    #1987-12-18 ...
+
+=head1 DESCRIPTION
+
+Log::History enables scripts to keep track of their own execution history.
+Each log entry reports the date, start time, elapsed run time, working directory,
+and a record of exactly how the script was called.
+
+=head1 ACKNOWLEDGEMENTS
+
+I was inspired to write this after recently re-reading Neil Bowers' post:
+L<Identifying CPAN distributions you could help out with|http://blogs.perl.org/users/neilb/2012/12/modules-that-are-candidates-for-helping-out.html>.
+In it, I found Tushar Murudkar's no-longer-maintained module L<Log::SelfHistory>.
+I was intrigued since I had been working on L<Log::Reproducible>.
+I wanted to go in a different direction, so decided to start from scratch instead of trying to take over L<Log::SelfHistory>.
+
+=head1 AUTHOR
+
+Michael F. Covington <mfcovington@gmail.com>
+
+=head1 SEE ALSO
+
+L<Log::SelfHistory>, L<Log::Reproducible>
+
+=cut
+
 sub _now {
     my %now;
     my @localtime = localtime;
