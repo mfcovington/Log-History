@@ -1,0 +1,5 @@
+Revision history for Perl module Log::History
+
+0.1.0 2014-06-23
+
+  - Make self-documenting scripts that track their own execution history
