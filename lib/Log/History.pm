@@ -8,7 +8,7 @@ use File::Copy 'move';
 use File::Temp ();
 use Scalar::Util 'looks_like_number';
 
-our $VERSION = 'pre-0.1.0';
+our $VERSION = '0.1.0';
 
 =head1 NAME
 
