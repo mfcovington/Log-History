@@ -147,7 +147,8 @@ EOF
     close $script_in_fh;
 
     # write script with newly logged item
-    my ( $temp_fh, $temp_filename ) = File::Temp::tempfile();
+    my ( $temp_fh, $temp_filename )
+        = File::Temp::tempfile( DIR => $ENV{'HOME'} );
     print $temp_fh @code;
     move $temp_filename, $script;
     chmod oct($original_permissions), $script;
