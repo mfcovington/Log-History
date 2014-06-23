@@ -157,6 +157,7 @@ EOF
     my ( $temp_fh, $temp_filename )
         = File::Temp::tempfile( DIR => $ENV{'HOME'} );
     print $temp_fh @code;
+    close $temp_fh;
     move $temp_filename, $script;
     chmod oct($original_permissions), $script;
 }
