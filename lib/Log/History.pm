@@ -138,7 +138,7 @@ EOF
     flock( $script_in_fh, 2 ) or die $!;
     while ( my $line = <$script_in_fh> ) {
         push @code, $line;
-        if ( $line =~ /use\s+$package/ ) {
+        if ( $line =~ /^[^#]*use\s+$package/ ) {
             push @code, "\n" unless $line =~ /\n$/;
             push @code, $log;
             my $log_count = 1;
