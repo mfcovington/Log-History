@@ -24,6 +24,14 @@ Log::History enables scripts to keep track of their own execution history.
 Each log entry reports the date, start time, elapsed run time, working directory,
 and a record of exactly how the script was called.
 
+# CAVEATS
+
+Because Log::History modifies the script that imports it, problems can occur
+if too many instances of the script are run at one time.
+(Actually, the problem can arise if one instance ends at the exact time another is starting.)
+
+If you don't have write access for the script, no log will be generated.
+
 # ACKNOWLEDGEMENTS
 
 I was inspired to write this after recently re-reading Neil Bowers' post:
