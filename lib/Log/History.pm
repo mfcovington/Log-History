@@ -78,12 +78,13 @@ my $start;
 my $cwd;
 my $script;
 my @arguments;
+my $package;
 my $log_limit;
 my $original_permissions;
 my $was_imported = 0;
 
 sub import {
-    ( my $pkg, $log_limit ) = @_;
+    ( $package, $log_limit ) = @_;
     $was_imported = 1;
 
     @arguments = @ARGV;
@@ -103,6 +104,12 @@ BEGIN {
 
 END {
     return unless $was_imported;
+    if ( !-w $script ) {
+        warn
+            "Warning: $package did not create a log, because you do not have write access for: $script\n";
+        return;
+    }
+
     my $finish = _now();
     my $elapsed = _elapsed( $$start{'seconds'}, $$finish{'seconds'} );
 
@@ -131,7 +138,7 @@ EOF
     flock( $script_in_fh, 2 ) or die $!;
     while ( my $line = <$script_in_fh> ) {
         push @code, $line;
-        if ( $line =~ /use\s+@{[__PACKAGE__]}/ ) {
+        if ( $line =~ /use\s+$package/ ) {
             push @code, "\n" unless $line =~ /\n$/;
             push @code, $log;
             my $log_count = 1;
