@@ -1,0 +1,9 @@
+autobuild.sh
+Build.pl
+CHANGES
+MANIFEST
+README.md
+lib/Log/History.pm
+t/history.t
+META.yml
+META.json
